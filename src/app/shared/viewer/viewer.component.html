@@ -1,0 +1,106 @@
+@if (lyricsService.lyrics) {
+  <div
+    class="text-center"
+    id="viewer-fullscreen"
+    [ngStyle]="{ 'font-size': fontSize + 'em' }"
+  >
+    @if (isFullscreen) {
+      <button
+        class="btn btn-primary"
+        (click)="audioService.toggle()"
+        [ngbTooltip]="audioService.audio.paused ? 'Play' : 'Pause'"
+      >
+        <svg class="icon">
+          @if (audioService.audio.paused) {
+            <use xlink:href="icons.svg#play"></use>
+          } @else {
+            <use xlink:href="icons.svg#pause"></use>
+          }
+        </svg>
+      </button>
+    }
+    <button
+      class="btn btn-primary"
+      (click)="bigger()"
+      ngbTooltip="Increase the font size"
+    >
+      <svg class="icon">
+        <use xlink:href="icons.svg#zoom-in"></use>
+      </svg>
+    </button>
+    <button
+      class="btn btn-primary"
+      (click)="smaller()"
+      ngbTooltip="Decrease the font size"
+    >
+      <svg class="icon">
+        <use xlink:href="icons.svg#zoom-out"></use>
+      </svg>
+    </button>
+    <button
+      class="btn btn-primary"
+      (click)="fullscreen()"
+      [ngbTooltip]="isFullscreen ? 'Exit fullscreen' : 'Fullscreen'"
+    >
+      <svg class="icon">
+        @if (isFullscreen) {
+          <use xlink:href="icons.svg#shrink"></use>
+        } @else {
+          <use xlink:href="icons.svg#enlarge"></use>
+        }
+      </svg>
+    </button>
+    @if (!isFullscreen) {
+      <button
+        class="btn btn-danger"
+        (click)="reset()"
+        ngbTooltip="Close the lyrics file"
+      >
+        <svg class="icon">
+          <use xlink:href="icons.svg#cross"></use>
+        </svg>
+      </button>
+    }
+
+    @for (line of lyricsService.lyrics.lines; track $index) {
+      @if (elapsed > line.start - 1 && elapsed < line.stop) {
+        <div class="text-secondary">
+          @if (line.words) {
+            @for (word of line.words; track $index) {
+              <span
+                class="mr-2"
+                [class.text-primary]="
+                  elapsed > word.start && elapsed < word.stop
+                "
+              >
+                {{ word.text }}
+              </span>
+            }
+          } @else {
+            <span [class.text-primary]="elapsed > line.start">{{
+              line.text
+            }}</span>
+          }
+        </div>
+      }
+    }
+  </div>
+} @else {
+  <div class="p-3">
+    <div class="custom-file">
+      <input
+        type="file"
+        accept=".json"
+        class="custom-file-input"
+        id="lyricsFile"
+        [(ngModel)]="lyricsFile"
+        name="lyricsFile"
+        (change)="onLyricsFileChange($event)"
+        required
+      />
+      <label class="custom-file-label" for="lyricsFile"
+        >Choose lyrics file</label
+      >
+    </div>
+  </div>
+}
