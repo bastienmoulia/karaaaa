@@ -16,7 +16,7 @@ export class AudioService {
     const processor: ScriptProcessorNode = context.createScriptProcessor(
       2048,
       2,
-      2,
+      2
     );
     this.audio.addEventListener(
       'canplaythrough',
@@ -24,9 +24,9 @@ export class AudioService {
         const sourceNode = context.createMediaElementSource(this.audio);
         sourceNode.connect(processor);
         processor.connect(context.destination);
-        this.audio.play();
+        //this.audio.play();
       },
-      false,
+      false
     );
 
     processor.addEventListener('audioprocess', (evt) => {
