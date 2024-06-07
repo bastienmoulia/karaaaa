@@ -3,6 +3,7 @@ import { AudioService } from '../../core/audio/audio.service';
 import { FormsModule } from '@angular/forms';
 import { TimePipe } from '../time/time.pipe';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { getBlob, getStorage, ref } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-audio',
@@ -30,8 +31,11 @@ export class AudioComponent implements OnInit {
     });
 
     if (this.songUrl()) {
-      let response = await fetch(this.songUrl()!);
-      let data = await response.blob();
+      const storage = getStorage();
+      const starsRef = ref(storage, this.songUrl());
+      //let response = await fetch(this.songUrl()!);
+      //let data = await response.blob();
+      let data = await getBlob(starsRef);
       let file = new File([data], 'test.mp3');
       this.loadFile(file);
     }
