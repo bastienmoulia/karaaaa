@@ -5,14 +5,14 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 import { AudioComponent } from '../shared/audio/audio.component';
 
 @Component({
   selector: 'app-song',
   standalone: true,
-  imports: [AudioComponent],
+  imports: [AudioComponent, RouterOutlet],
   templateUrl: './song.component.html',
   styleUrl: './song.component.scss',
   //changeDetection: ChangeDetectionStrategy.OnPush,

@@ -2,8 +2,8 @@
 <p>Loading...</p>
 } @else if(songData()){
 <h1>{{ songData().name }}</h1>
-<audio controls [src]="songData().songUrl"></audio>
 <app-audio [songUrl]="songData().songUrl"></app-audio>
+<router-outlet />
 } @else {
 <p>No song found</p>
 }
