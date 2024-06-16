@@ -23,7 +23,7 @@ export class LyricsService {
     }
   }
 
-  set(lyrics: any) {
+  set(lyrics: Lyrics) {
     // TODO: vérifier le contenu
     this.lyrics = lyrics;
   }

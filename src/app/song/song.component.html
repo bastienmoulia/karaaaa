@@ -20,7 +20,7 @@
     <app-viewer></app-viewer>
 
     @if (edit()) {
-      <app-form></app-form>
+      <app-form (saveLyrics)="saveLyrics()"></app-form>
     }
   </div>
 } @else {

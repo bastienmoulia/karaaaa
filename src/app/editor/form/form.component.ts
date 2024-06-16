@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { LyricsService } from '../../core/lyrics/lyrics.service';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MoveLineComponent } from '../move-line/move-line.component';
@@ -11,15 +11,16 @@ const lineTime = 2;
   standalone: true,
   imports: [FormsModule, NgbDropdownModule],
   templateUrl: './form.component.html',
-  styleUrl: './form.component.scss'
+  styleUrl: './form.component.scss',
 })
 export class FormComponent {
-
   lyricsService = inject(LyricsService);
   private ngbModal = inject(NgbModal);
 
+  saveLyrics = output();
+
   newLyrics() {
-    this.lyricsService.set({lines: []});
+    this.lyricsService.set({ lines: [] });
   }
 
   newLine() {
@@ -32,13 +33,14 @@ export class FormComponent {
     this.lyricsService.lyrics.lines.push({
       start,
       stop,
-      text: ''
+      text: '',
     });
     this.save();
   }
 
   save() {
     this.lyricsService.save();
+    this.saveLyrics.emit();
   }
 
   download() {
@@ -64,7 +66,7 @@ export class FormComponent {
     this.lyricsService.lyrics.lines.splice(index + 1, 0, {
       start,
       stop,
-      text: ''
+      text: '',
     });
     this.save();
   }
