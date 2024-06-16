@@ -1,101 +1,129 @@
 @if (lyricsService.lyrics) {
-<div
-  class="text-center"
-  id="viewer-fullscreen"
-  [ngStyle]="{ 'font-size': fontSize + 'em' }"
->
-  @if (isFullscreen) {
-  <button
-    class="btn btn-primary"
-    (click)="audioService.toggle()"
-    [ngbTooltip]="audioService.audio.paused ? 'Play' : 'Pause'"
+  <div
+    class="text-center"
+    id="viewer-fullscreen"
+    [ngStyle]="{ 'font-size': fontSize + 'em' }"
   >
-    <svg class="icon">
-      @if (audioService.audio.paused) {
-      <use xlink:href="icons.svg#play"></use>
-      } @else {
-      <use xlink:href="icons.svg#pause"></use>
-      }
-    </svg>
-  </button>
-  }
-  <button
-    class="btn btn-primary"
-    (click)="bigger()"
-    ngbTooltip="Increase the font size"
-  >
-    <svg class="icon">
-      <use xlink:href="icons.svg#zoom-in"></use>
-    </svg>
-  </button>
-  <button
-    class="btn btn-primary"
-    (click)="smaller()"
-    ngbTooltip="Decrease the font size"
-  >
-    <svg class="icon">
-      <use xlink:href="icons.svg#zoom-out"></use>
-    </svg>
-  </button>
-  <button
-    class="btn btn-primary"
-    (click)="fullscreen()"
-    [ngbTooltip]="isFullscreen ? 'Exit fullscreen' : 'Fullscreen'"
-  >
-    <svg class="icon">
-      @if (isFullscreen) {
-      <use xlink:href="icons.svg#shrink"></use>
-      } @else {
-      <use xlink:href="icons.svg#enlarge"></use>
-      }
-    </svg>
-  </button>
-  @if (!isFullscreen) {
-  <button
-    class="btn btn-danger"
-    (click)="reset()"
-    ngbTooltip="Close the lyrics file"
-  >
-    <svg class="icon">
-      <use xlink:href="icons.svg#cross"></use>
-    </svg>
-  </button>
-  } @for (line of lyricsService.lyrics.lines; track $index) { @if (elapsed >
-  line.start - 1 && elapsed < line.stop) {
-  <div class="text-secondary">
-    @if (line.words) { @for (word of line.words; track $index) {
-    <span
-      class="mr-2"
-      [class.text-primary]="elapsed > word.start && elapsed < word.stop"
+    @if (isFullscreen) {
+      <button
+        class="btn btn-primary"
+        (click)="audioService.toggle()"
+        [ngbTooltip]="audioService.audio.paused ? 'Play' : 'Pause'"
+      >
+        <svg class="icon">
+          @if (audioService.audio.paused) {
+            <use xlink:href="icons.svg#play"></use>
+          } @else {
+            <use xlink:href="icons.svg#pause"></use>
+          }
+        </svg>
+      </button>
+    }
+    <button
+      class="btn btn-primary"
+      (click)="bigger()"
+      ngbTooltip="Increase the font size"
     >
-      {{ word.text }}
-    </span>
-    } } @else {
-    <span
-      [class.text-primary]="elapsed > line.start"
-      class="word"
-      [class.paused]="audioService.audio.paused"
-      [attr.data-text]="line.text"
-      >{{ line.text }}</span
+      <svg class="icon">
+        <use xlink:href="icons.svg#zoom-in"></use>
+      </svg>
+    </button>
+    <button
+      class="btn btn-primary"
+      (click)="smaller()"
+      ngbTooltip="Decrease the font size"
     >
+      <svg class="icon">
+        <use xlink:href="icons.svg#zoom-out"></use>
+      </svg>
+    </button>
+    <button
+      class="btn btn-primary"
+      (click)="fullscreen()"
+      [ngbTooltip]="isFullscreen ? 'Exit fullscreen' : 'Fullscreen'"
+    >
+      <svg class="icon">
+        @if (isFullscreen) {
+          <use xlink:href="icons.svg#shrink"></use>
+        } @else {
+          <use xlink:href="icons.svg#enlarge"></use>
+        }
+      </svg>
+    </button>
+    @if (!isFullscreen) {
+      <button
+        class="btn btn-danger"
+        (click)="reset()"
+        ngbTooltip="Close the lyrics file"
+      >
+        <svg class="icon">
+          <use xlink:href="icons.svg#cross"></use>
+        </svg>
+      </button>
+    }
+    @for (line of lyricsService.lyrics.lines; track $index) {
+      @if ($index === 0) {
+        @if (elapsed < line.start && line.start > progressThreshold) {
+          <div class="progress">
+            <div
+              class="progress-bar"
+              role="progressbar"
+              [style.width.%]="(elapsed / line.start) * 100"
+            ></div>
+          </div>
+        }
+      } @else {
+        @if (
+          elapsed < line.start &&
+          line.start - lyricsService.lyrics.lines[$index - 1].stop >
+            progressThreshold
+        ) {
+          <div class="progress">
+            <div
+              class="progress-bar"
+              role="progressbar"
+              [style.width.%]="
+                ((elapsed - lyricsService.lyrics.lines[$index - 1].stop) /
+                  (line.start - lyricsService.lyrics.lines[$index - 1].stop)) *
+                100
+              "
+            ></div>
+          </div>
+        }
+      }
+
+      <div class="line" [class.line-hidden]="elapsed > line.stop">
+        <span class="text-line">
+          <span
+            [class.text-primary]="elapsed > line.start && elapsed < line.stop"
+            class="word"
+            [class.paused]="audioService.audio.paused"
+            [attr.data-text]="line.text"
+            >{{ line.text }}</span
+          >
+          @if (elapsed > line.start - 0.5 && elapsed < line.stop) {
+            <span class="now" [style.left.%]="leftCalcul(elapsed, line)"></span>
+          }
+        </span>
+      </div>
     }
   </div>
-  } }
-</div>
 } @else {
-<div class="p-3">
-  <div class="custom-file">
-    <input
-      type="file"
-      accept=".json"
-      class="custom-file-input"
-      id="lyricsFile"
-      [(ngModel)]="lyricsFile"
-      name="lyricsFile"
-      (change)="onLyricsFileChange($event)"
-      required
-    />
-    <label class="custom-file-label" for="lyricsFile">Choose lyrics file</label>
+  <div class="p-3">
+    <div class="custom-file">
+      <input
+        type="file"
+        accept=".json"
+        class="custom-file-input"
+        id="lyricsFile"
+        [(ngModel)]="lyricsFile"
+        name="lyricsFile"
+        (change)="onLyricsFileChange($event)"
+        required
+      />
+      <label class="custom-file-label" for="lyricsFile"
+        >Choose lyrics file</label
+      >
+    </div>
   </div>
-</div>
 }

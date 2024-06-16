@@ -1,4 +1,4 @@
-.word {
+/*.word {
   position: relative;
   white-space: nowrap;
   color: lightblue;
@@ -24,4 +24,27 @@
   to {
     width: 100%;
   }
+}
+*/
+
+.line {
+  transition: all 0.5s;
+  height: 2em;
+  opacity: 1;
+}
+.line-hidden {
+  height: 0;
+  opacity: 0;
+}
+.text-line {
+  position: relative;
+}
+
+.now {
+  border-right: solid 2px var(--bs-primary);
+  position: absolute;
+  width: 1px;
+  height: 1.5em;
+  left: 0;
+  transition: all 0.5s;
 }

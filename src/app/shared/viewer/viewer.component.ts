@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { AudioService } from '../../core/audio/audio.service';
-import { LyricsService } from '../../core/lyrics/lyrics.service';
+import { LyricsLine, LyricsService } from '../../core/lyrics/lyrics.service';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgStyle } from '@angular/common';
@@ -21,6 +21,7 @@ export class ViewerComponent implements OnInit {
   lyricsFile: File = null!;
   fontSize = 1;
   isFullscreen = false;
+  progressThreshold = 5;
 
   ngOnInit() {
     this.audioService.timeupdate$.subscribe(() => {
@@ -65,5 +66,11 @@ export class ViewerComponent implements OnInit {
 
   smaller() {
     this.fontSize--;
+  }
+
+  leftCalcul(ellapsed: number, line: LyricsLine): number {
+    const duration = ellapsed - line.start;
+    const durationTotal = line.stop - line.start;
+    return (duration / durationTotal) * 100;
   }
 }

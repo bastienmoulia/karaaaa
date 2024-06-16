@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
 
 export interface Lyrics {
-  lines: {
-    start: number;
-    stop: number;
-    words?: {
-      start: number;
-      stop: number;
-      text: string;
-    }[];
-    text?: string;
-  }[];
+  lines: LyricsLine[];
+}
+
+export interface LyricsLine {
+  start: number;
+  stop: number;
+  text?: string;
 }
 
 @Injectable({

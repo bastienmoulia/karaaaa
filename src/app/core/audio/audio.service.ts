@@ -9,6 +9,7 @@ export class AudioService {
   audioName = '';
   timeupdate$: Observable<Event>;
   audioContext!: AudioContext;
+  sourceNode!: MediaElementAudioSourceNode;
 
   constructor() {
     this.timeupdate$ = fromEvent(this.audio, 'timeupdate');
@@ -22,14 +23,19 @@ export class AudioService {
       this.audio.addEventListener(
         'canplaythrough',
         () => {
-          const sourceNode = this.audioContext.createMediaElementSource(
-            this.audio
-          );
-          sourceNode.connect(processor);
-          processor.connect(this.audioContext.destination);
+          console.log('canplaythrough');
+          if (!this.sourceNode) {
+            console.log('createMediaElementSource');
+            this.sourceNode = this.audioContext.createMediaElementSource(
+              this.audio,
+            );
+            this.sourceNode.connect(processor);
+            processor.connect(this.audioContext.destination);
+          }
+
           //this.audio.play();
         },
-        false
+        false,
       );
 
       processor.addEventListener('audioprocess', (evt) => {
