@@ -8,11 +8,14 @@ import {
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 import { AudioComponent } from '../shared/audio/audio.component';
+import { ViewerComponent } from '../shared/viewer/viewer.component';
+import { FormComponent } from '../editor/form/form.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-song',
   standalone: true,
-  imports: [AudioComponent, RouterOutlet],
+  imports: [AudioComponent, ViewerComponent, FormComponent, FormsModule],
   templateUrl: './song.component.html',
   styleUrl: './song.component.scss',
   //changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,6 +25,7 @@ export class SongComponent implements OnInit {
   private _firestore = inject(Firestore);
   loading = signal(true);
   songData = signal<any>(null);
+  edit = signal(false);
 
   ngOnInit(): void {
     this.loading.set(true);

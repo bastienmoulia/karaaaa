@@ -1,31 +1,9 @@
-/*.word {
-  position: relative;
-  white-space: nowrap;
-  color: lightblue;
-  text-shadow: 0 0 3px rgba(0, 0, 0, 1);
+:host {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
 }
-
-.word::after {
-  content: attr(data-text);
-  position: absolute;
-  left: 0;
-  top: 0;
-  color: red;
-  overflow: hidden;
-  width: 40%;
-  animation: run-text 5s linear;
-  text-shadow: 0 0 3px rgba(255, 255, 255, 1);
-}
-
-@keyframes run-text {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
-}
-*/
 
 .line {
   transition: all 0.5s;

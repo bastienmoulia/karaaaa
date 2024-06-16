@@ -1,9 +1,28 @@
 @if (loading()) {
-<p>Loading...</p>
-} @else if(songData()){
-<h1>{{ songData().name }}</h1>
-<app-audio [songUrl]="songData().songUrl"></app-audio>
-<router-outlet />
+  <p>Loading...</p>
+} @else if (songData()) {
+  <div class="d-flex p-2">
+    <h1>{{ songData().name }}</h1>
+    <div class="ms-auto d-flex align-items-center">
+      <input
+        type="checkbox"
+        class="btn-check"
+        id="btn-check-edit"
+        autocomplete="off"
+        [ngModel]="edit()"
+        (ngModelChange)="edit.set($event)"
+      />
+      <label class="btn btn-primary" for="btn-check-edit">Edit</label>
+    </div>
+  </div>
+  <app-audio [songUrl]="songData().songUrl"></app-audio>
+  <div class="d-flex flex-row overflow-auto">
+    <app-viewer></app-viewer>
+
+    @if (edit()) {
+      <app-form></app-form>
+    }
+  </div>
 } @else {
-<p>No song found</p>
+  <p>No song found</p>
 }
