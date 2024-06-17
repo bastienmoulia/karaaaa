@@ -1,2 +1,52 @@
-<h1>Karaaaa</h1>
-<p>Welcome to Karaaaa!</p>
+<div class="container">
+  <h1>Karaaaa</h1>
+  <p>Welcome to Karaaaa, an online editor and viewer for karaoke</p>
+  <div class="row">
+    <div class="col-sm-6 col-lg-4 mb-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Demo</h5>
+          <p class="card-text">
+            Explore the features of Karaaaa with a demo song.
+          </p>
+          <a href="#" class="btn btn-primary">Test it!</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-4 mb-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">New Karaaaa</h5>
+          <p class="card-text">
+            Create a new Karaaaa and share it with your friends.
+          </p>
+          <a href="#" class="btn btn-primary"> Create a new Karaaaa </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-4 mb-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Join a Karaaaa</h5>
+          <p class="card-text">
+            Join a Karaaaa with a code shared by your friends.
+          </p>
+          <form
+            class="input-group"
+            [formGroup]="joinForm"
+            (ngSubmit)="onSubmit()"
+          >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter the code"
+              formControlName="code"
+              maxlength="6"
+            />
+            <button class="btn btn-primary" type="submit">Join</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
