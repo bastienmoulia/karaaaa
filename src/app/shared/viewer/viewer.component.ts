@@ -4,11 +4,12 @@ import { LyricsLine, LyricsService } from '../../core/lyrics/lyrics.service';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgStyle } from '@angular/common';
+import { FunctionPipe } from '../function/function.pipe';
 
 @Component({
   selector: 'app-viewer',
   standalone: true,
-  imports: [FormsModule, NgbTooltipModule, NgStyle],
+  imports: [FormsModule, NgbTooltipModule, NgStyle, FunctionPipe],
   templateUrl: './viewer.component.html',
   styleUrl: './viewer.component.scss',
 })
