@@ -12,7 +12,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="navbar-collapse" [class.collapse]="collapsed" id="navbar">
-      <ul class="navbar-nav mr-auto">
+      <!--<ul class="navbar-nav mr-auto">
         <li class="nav-item">
           <a class="nav-link" routerLink="/player" routerLinkActive="active"
             >Player</a
@@ -23,9 +23,19 @@
             >Editor</a
           >
         </li>
-      </ul>
+      </ul>-->
       <ul class="navbar-nav flex-row ms-sm-auto d-none d-sm-flex">
-        <li class="nav-item">
+        @if (user$ | async) {
+          <span class="navbar-text me-2">{{
+            (user$ | async)?.displayName
+          }}</span>
+          <button class="btn btn-outline-danger" (click)="logout()">
+            Logout
+          </button>
+        } @else {
+          <button class="btn btn-secondary" (click)="login()">Login</button>
+        }
+        <li class="nav-item ms-3">
           <a
             class="nav-link py-2 px-0 px-lg-2"
             href="https://github.com/bastienmoulia/karaaaa"

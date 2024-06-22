@@ -1,6 +1,6 @@
 <div class="container">
   <h1>Karaaaa</h1>
-  <p>Welcome to Karaaaa, an online editor and viewer for karaoke</p>
+  <p>Welcome to Karaaaa, an online editor and viewer for custom karaoke</p>
   <div class="row">
     <div class="col-sm-6 col-lg-4 mb-3">
       <div class="card">
@@ -20,7 +20,9 @@
           <p class="card-text">
             Create a new Karaaaa and share it with your friends.
           </p>
-          <a href="#" class="btn btn-primary"> Create a new Karaaaa </a>
+          <a [routerLink]="['/new']" class="btn btn-primary">
+            Create a new Karaaaa
+          </a>
         </div>
       </div>
     </div>
